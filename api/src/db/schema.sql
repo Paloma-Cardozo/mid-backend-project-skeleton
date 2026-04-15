@@ -1,0 +1,26 @@
+CREATE TABLE "user" (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  phone VARCHAR(255), 
+  password_hash VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
+
+SELECT * FROM "user";
+
+CREATE TABLE event (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL UNIQUE,
+  description TEXT,
+  event_date DATE,
+  event_time TIME,
+  venue VARCHAR(255) NOT NULL,
+  price DECIMAL(10, 2),
+  available_tickets INTEGER NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
+
+SELECT * FROM event;
