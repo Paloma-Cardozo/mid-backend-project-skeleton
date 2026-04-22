@@ -54,18 +54,18 @@ Stores shopping carts, persisted for both authenticated and unauthenticated user
 Stores individual lines within a cart:
 
 - `id` (SERIAL PRIMARY KEY) - Unique identifier
-- `cart_id` (INTEGER FK → cart.id) - Associated cart
-- `event_id` (INTEGER FK → event.id) - Associated event
-- `quantity` (INTEGER) - Number of tickets
-- `price_snapshot` (DECIMAL(10, 2)) - Price at time of adding to cart
+- `cart_id` (INTEGER NOT NULL FK → cart.id) - Associated cart
+- `event_id` (INTEGER NOT NULL FK → event.id) - Associated event
+- `quantity` (INTEGER NOT NULL) - Number of tickets
+- `price_snapshot` (DECIMAL(10, 2) NOT NULL) - Price at time of adding to cart
 
 ### `customer_order` Table
 
 Stores finalized orders created during checkout:
 
 - `id` (SERIAL PRIMARY KEY) - Unique identifier
-- `user_id` (INTEGER FK → app_user.id) - User who placed the order
-- `total_amount` (DECIMAL(10, 2)) - Total order amount at checkout
+- `user_id` (INTEGER NOT NULL FK → app_user.id) - User who placed the order
+- `total_amount` (DECIMAL(10, 2) NOT NULL) - Total order amount at checkout
 - `created_at` (TIMESTAMP) - Order creation timestamp
 
 ### `order_item` Table
@@ -73,10 +73,10 @@ Stores finalized orders created during checkout:
 Stores individual lines within an order:
 
 - `id` (SERIAL PRIMARY KEY) - Unique identifier
-- `order_id` (INTEGER FK → customer_order.id) - Associated order
-- `event_id` (INTEGER FK → event.id) - Associated event
-- `quantity` (INTEGER) - Number of tickets purchased
-- `price_snapshot` (DECIMAL(10, 2)) - Price at time of purchase
+- `order_id` (INTEGER NOT NULL FK → customer_order.id) - Associated order
+- `event_id` (INTEGER NOT NULL FK → event.id) - Associated event
+- `quantity` (INTEGER NOT NULL) - Number of tickets purchased
+- `price_snapshot` (DECIMAL(10, 2) NOT NULL) - Price at time of purchase
 
 ## Design Decisions
 
@@ -111,6 +111,6 @@ See available queries in `api/src/db/queries.sql`:
 ## Notes
 
 - All queries use parameterized statements to prevent SQL injection
-- The database is seeded with 6 test users and 5 events
+- The database is seeded with 6 test users, 5 events, 1 active cart with 2 cart items, and 1 completed order with 1 order item
 - Timestamps use PostgreSQL's DEFAULT CURRENT_TIMESTAMP
 - Reserved SQL words avoided: `user` → `app_user`, `order` → `customer_order`

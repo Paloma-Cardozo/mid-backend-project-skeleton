@@ -27,7 +27,7 @@ SELECT * FROM event;
 
 CREATE TABLE customer_order (
   id SERIAL PRIMARY KEY,
-  user_id INTEGER REFERENCES app_user(id),
+  user_id INTEGER NOT NULL REFERENCES app_user(id),
   total_amount DECIMAL(10, 2) NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
