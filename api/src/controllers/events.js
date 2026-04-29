@@ -128,6 +128,7 @@ export async function getEventById(req, res, next) {
     if (!event) {
       return res.status(404).json({
         error: "Event not found",
+        status: 404,
       });
     }
 
