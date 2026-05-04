@@ -1,3 +1,13 @@
-const middlewares = []
+function errorHandler(err, req, res, next) {
+  const status = err.status || 500;
+  const message = err.message || "Internal server error";
 
-export default middlewares
+  res.status(status).json({
+    error: message,
+    status: status,
+  });
+}
+
+const middlewares = [errorHandler];
+
+export default middlewares;
