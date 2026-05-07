@@ -65,17 +65,22 @@ export async function getEvents(req, res, next) {
       page = Number(req.query.page);
     }
 
-    if (page < 1) {
+    if (!Number.isInteger(page) || page < 1) {
       page = 1;
     }
 
     let pageSize = 20;
+    const MAX_PAGE_SIZE = 100;
 
     if (req.query.pageSize) {
       pageSize = Number(req.query.pageSize);
     }
 
-    if (pageSize < 1) {
+    if (
+      !Number.isInteger(pageSize) ||
+      pageSize < 1 ||
+      pageSize > MAX_PAGE_SIZE
+    ) {
       pageSize = 20;
     }
 
@@ -149,16 +154,10 @@ export async function getEventById(req, res, next) {
  */
 export async function postEvent(req, res, next) {
   // OPTIONAL TODO: implement this handler only if optional scope is taken on
-  try {
-    await createEvent(req.body);
-
-    return res.status(501).json({
-      error:
-        "Optional placeholder: postEvent is intentionally not implemented in the base skeleton",
-    });
-  } catch (error) {
-    next(error);
-  }
+  return res.status(501).json({
+    error:
+      "Optional placeholder: postEvent is intentionally not implemented in the base skeleton",
+  });
 }
 
 /**
@@ -171,16 +170,10 @@ export async function postEvent(req, res, next) {
  */
 export async function patchEvent(req, res, next) {
   // OPTIONAL TODO: implement this handler only if optional scope is taken on
-  try {
-    await updateEvent(req.params.id, req.body);
-
-    return res.status(501).json({
-      error:
-        "Optional placeholder: patchEvent is intentionally not implemented in the base skeleton",
-    });
-  } catch (error) {
-    next(error);
-  }
+  return res.status(501).json({
+    error:
+      "Optional placeholder: patchEvent is intentionally not implemented in the base skeleton",
+  });
 }
 
 /**
@@ -193,14 +186,8 @@ export async function patchEvent(req, res, next) {
  */
 export async function removeEvent(req, res, next) {
   // OPTIONAL TODO: implement this handler only if optional scope is taken on
-  try {
-    await deleteEvent(req.params.id);
-
-    return res.status(501).json({
-      error:
-        "Optional placeholder: removeEvent is intentionally not implemented in the base skeleton",
-    });
-  } catch (error) {
-    next(error);
-  }
+  return res.status(501).json({
+    error:
+      "Optional placeholder: removeEvent is intentionally not implemented in the base skeleton",
+  });
 }
