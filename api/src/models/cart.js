@@ -23,3 +23,22 @@ export async function getActiveCart(userId) {
 
   return { ...cart, items };
 }
+
+export async function createCart(userId) {
+  const [cart] = await db("cart")
+    .insert({ user_id: userId, status: "active" })
+    .returning("*");
+  return cart;
+}
+
+export async function addItemToCart(cartId, eventId, quantity, priceSnapshot) {
+  const [item] = await db("cart_item")
+    .insert({
+      cart_id: cartId,
+      event_id: eventId,
+      quantity,
+      price_snapshot: priceSnapshot,
+    })
+    .returning("*");
+  return item;
+}
