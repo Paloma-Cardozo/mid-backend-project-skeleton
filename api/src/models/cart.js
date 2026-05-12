@@ -5,7 +5,9 @@ export async function getActiveCart(userId) {
     .where({ user_id: userId, status: "active" })
     .first();
 
-  if (!cart) return null;
+  if (!cart) {
+    return null;
+  }
 
   const items = await db("cart_item")
     .join("event", "cart_item.event_id", "event.id")

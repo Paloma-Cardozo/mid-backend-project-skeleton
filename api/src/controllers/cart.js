@@ -3,7 +3,11 @@ import db from "#configs/database.js";
 
 export async function getCart(req, res, next) {
   try {
-    const userId = req.user ? req.user.user_id : null;
+    let userId = null;
+
+    if (req.user) {
+      userId = req.user.user_id;
+    }
 
     const cart = await getActiveCart(userId);
 
@@ -35,7 +39,12 @@ export async function getCart(req, res, next) {
 
 export async function addItem(req, res, next) {
   try {
-    const userId = req.user ? req.user.user_id : null;
+    let userId = null;
+
+    if (req.user) {
+      userId = req.user.user_id;
+    }
+
     const { event_id, quantity } = req.body;
 
     if (!event_id || quantity === undefined || quantity === null) {
