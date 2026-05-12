@@ -6,6 +6,16 @@ const authRouter = express.Router();
 
 /**
  * @swagger
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ */
+
+/**
+ * @swagger
  * /api/auth/signup:
  *   post:
  *     summary: Register a new user
