@@ -44,3 +44,21 @@ export async function addItemToCart(cartId, eventId, quantity, priceSnapshot) {
     .returning("*");
   return item;
 }
+
+export async function findCartItem(itemId) {
+  const item = await db("cart_item").where({ id: itemId }).first();
+
+  if (!item) {
+    return null;
+  }
+
+  return item;
+}
+
+export async function updateCartItem(itemId, quantity) {
+  const [item] = await db("cart_item")
+    .where({ id: itemId })
+    .update({ quantity })
+    .returning("*");
+  return item;
+}

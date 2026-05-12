@@ -1,5 +1,5 @@
 import express from "express";
-import { getCart, addItem } from "#controllers/cart.js";
+import { getCart, addItem, updateItem } from "#controllers/cart.js";
 import { authenticate } from "#middlewares/auth.js";
 
 const cartRouter = express.Router();
@@ -54,7 +54,47 @@ const cartRouter = express.Router();
  *         description: Event not found
  */
 
+/**
+ * @swagger
+ * /api/cart/items/{itemId}:
+ *   put:
+ *     summary: Update cart item quantity
+ *     tags:
+ *       - Cart
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: itemId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Cart item ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - quantity
+ *             properties:
+ *               quantity:
+ *                 type: integer
+ *                 example: 3
+ *     responses:
+ *       200:
+ *         description: Cart item updated
+ *       400:
+ *         description: Invalid quantity
+ *       403:
+ *         description: Item does not belong to your cart
+ *       404:
+ *         description: Cart item not found
+ */
+
 cartRouter.get("/", authenticate, getCart);
 cartRouter.post("/items", authenticate, addItem);
+cartRouter.put("/items/:itemId", authenticate, updateItem);
 
 export default cartRouter;
