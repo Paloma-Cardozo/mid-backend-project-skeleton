@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { findUserByEmail, createUser } from "#models/auth.js";
+import { findUserByEmail, createUser, findUserById } from "#models/auth.js";
 import jwt from "jsonwebtoken";
 
 export async function signup(req, res, next) {
@@ -73,6 +73,23 @@ export async function login(req, res, next) {
         },
       },
     });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function me(req, res, next) {
+  try {
+    const user = await findUserById(req.user.user_id);
+
+    if (!user) {
+      return res.status(404).json({
+        error: "User not found",
+        status: 404,
+      });
+    }
+
+    return res.status(200).json({ data: user });
   } catch (error) {
     next(error);
   }

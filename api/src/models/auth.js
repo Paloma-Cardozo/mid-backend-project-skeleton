@@ -17,3 +17,11 @@ export async function createUser(name, email, passwordHash) {
     .returning(["id", "name", "email", "created_at"]);
   return user;
 }
+
+export async function findUserById(id) {
+  const user = await db(TABLE)
+    .where({ id })
+    .select("id", "name", "email", "created_at")
+    .first();
+  return user || null;
+}

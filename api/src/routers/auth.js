@@ -1,5 +1,6 @@
 import express from "express";
-import { signup, login } from "#controllers/auth.js";
+import { signup, login, me } from "#controllers/auth.js";
+import { authenticate } from "#middlewares/auth.js";
 
 const authRouter = express.Router();
 
@@ -67,7 +68,24 @@ const authRouter = express.Router();
  *         description: Invalid email or password
  */
 
+/**
+ * @swagger
+ * /api/auth/me:
+ *   get:
+ *     summary: Get current authenticated user
+ *     tags:
+ *       - Auth
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Returns authenticated user data
+ *       401:
+ *         description: Missing or invalid token
+ */
+
 authRouter.post("/signup", signup);
 authRouter.post("/login", login);
+authRouter.get("/me", authenticate, me);
 
 export default authRouter;
