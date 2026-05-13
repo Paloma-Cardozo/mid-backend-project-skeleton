@@ -54,7 +54,7 @@ export async function checkout(req, res, next) {
 export async function listOrders(req, res, next) {
   try {
     let userId = null;
-    
+
     if (req.user) {
       userId = req.user.user_id;
     }
@@ -63,6 +63,49 @@ export async function listOrders(req, res, next) {
 
     return res.status(200).json({
       data: orders,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function getOrder(req, res, next) {
+  try {
+    let userId = null;
+
+    if (req.user) {
+      userId = req.user.user_id;
+    }
+
+    const orderId = req.params.orderId;
+    const order = await getOrderById(orderId);
+
+    if (!order) {
+      return res.status(404).json({
+        error: "Order not found",
+        status: 404,
+      });
+    }
+
+    if (order.user_id !== userId) {
+      return res.status(403).json({
+        error: "This order does not belong to you",
+        status: 403,
+      });
+    }
+
+    const total = order.items.reduce((sum, item) => {
+      return sum + item.quantity * parseFloat(item.price_snapshot);
+    }, 0);
+
+    return res.status(200).json({
+      data: {
+        id: order.id,
+        user_id: order.user_id,
+        total: total.toFixed(2),
+        created_at: order.created_at,
+        items: order.items,
+      },
     });
   } catch (error) {
     next(error);

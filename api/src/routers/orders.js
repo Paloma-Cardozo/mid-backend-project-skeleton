@@ -1,5 +1,5 @@
 import express from "express";
-import { checkout, listOrders } from "#controllers/orders.js";
+import { checkout, listOrders, getOrder } from "#controllers/orders.js";
 import { authenticate } from "#middlewares/auth.js";
 
 const ordersRouter = express.Router();
@@ -38,6 +38,32 @@ const ordersRouter = express.Router();
  *         description: Authentication required
  */
 
+/**
+ * @swagger
+ * /api/orders/{orderId}:
+ *   get:
+ *     summary: Get order by ID
+ *     tags:
+ *       - Orders
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: orderId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Order ID
+ *     responses:
+ *       200:
+ *         description: Order details
+ *       403:
+ *         description: Order does not belong to you
+ *       404:
+ *         description: Order not found
+ */
+
 ordersRouter.get("/", authenticate, listOrders);
+ordersRouter.get("/:orderId", authenticate, getOrder);
 
 export default ordersRouter;
