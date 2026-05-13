@@ -1,5 +1,5 @@
 import express from "express";
-import { getCart, addItem, updateItem } from "#controllers/cart.js";
+import { getCart, addItem, updateItem, removeItem } from "#controllers/cart.js";
 import { authenticate } from "#middlewares/auth.js";
 
 const cartRouter = express.Router();
@@ -93,8 +93,34 @@ const cartRouter = express.Router();
  *         description: Cart item not found
  */
 
+/**
+ * @swagger
+ * /api/cart/items/{itemId}:
+ *   delete:
+ *     summary: Remove item from cart
+ *     tags:
+ *       - Cart
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: itemId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Cart item ID
+ *     responses:
+ *       200:
+ *         description: Item removed, returns updated cart
+ *       403:
+ *         description: Item does not belong to your cart
+ *       404:
+ *         description: Cart item not found
+ */
+
 cartRouter.get("/", authenticate, getCart);
 cartRouter.post("/items", authenticate, addItem);
 cartRouter.put("/items/:itemId", authenticate, updateItem);
+cartRouter.delete("/items/:itemId", authenticate, removeItem);
 
 export default cartRouter;

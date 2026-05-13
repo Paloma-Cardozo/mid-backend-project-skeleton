@@ -62,3 +62,7 @@ export async function updateCartItem(itemId, quantity) {
     .returning("*");
   return item;
 }
+
+export async function deleteCartItem(itemId) {
+  await db("cart_item").where({ id: itemId }).delete();
+}
