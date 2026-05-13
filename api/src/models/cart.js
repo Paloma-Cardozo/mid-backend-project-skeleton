@@ -66,3 +66,7 @@ export async function updateCartItem(itemId, quantity) {
 export async function deleteCartItem(itemId) {
   await db("cart_item").where({ id: itemId }).delete();
 }
+
+export async function completeCart(cartId, trx) {
+  await trx("cart").where({ id: cartId }).update({ status: "completed" });
+}

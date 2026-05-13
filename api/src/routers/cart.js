@@ -1,6 +1,7 @@
 import express from "express";
 import { getCart, addItem, updateItem, removeItem } from "#controllers/cart.js";
 import { authenticate } from "#middlewares/auth.js";
+import { checkout } from "#controllers/orders.js";
 
 const cartRouter = express.Router();
 
@@ -122,5 +123,6 @@ cartRouter.get("/", authenticate, getCart);
 cartRouter.post("/items", authenticate, addItem);
 cartRouter.put("/items/:itemId", authenticate, updateItem);
 cartRouter.delete("/items/:itemId", authenticate, removeItem);
+cartRouter.post("/checkout", authenticate, checkout);
 
 export default cartRouter;
