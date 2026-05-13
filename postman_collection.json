@@ -677,6 +677,177 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Cart Item Valid",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpYXQiOjE3Nzg1Nzg1MDMsImV4cCI6MTc3OTE4MzMwM30.P__aqxj0zyaECi1jCU6AS2BYQbzg8CzU7aAwfG5CK98",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3001/api/cart/items/3",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "api",
+                "cart",
+                "items",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cart Item Not Found",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpYXQiOjE3Nzg1Nzg1MDMsImV4cCI6MTc3OTE4MzMwM30.P__aqxj0zyaECi1jCU6AS2BYQbzg8CzU7aAwfG5CK98",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3001/api/cart/items/999",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "api",
+                "cart",
+                "items",
+                "999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cart Item Wrong Cart",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpYXQiOjE3Nzg1Nzg1MDMsImV4cCI6MTc3OTE4MzMwM30.P__aqxj0zyaECi1jCU6AS2BYQbzg8CzU7aAwfG5CK98",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3001/api/cart/items/7",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "api",
+                "cart",
+                "items",
+                "7"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Checkout Successful",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo4LCJlbWFpbCI6InRlc3QyQHRlc3QuY29tIiwiaWF0IjoxNzc4NjU0OTk5LCJleHAiOjE3NzkyNTk3OTl9.kWnfHgAg_YmEqxIoA4RkLdAa2pudgTZ5sHqHAm4mdjs",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/cart/checkout",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "api",
+                "cart",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Checkout Empty Cart",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo4LCJlbWFpbCI6InRlc3QyQHRlc3QuY29tIiwiaWF0IjoxNzc4NjU0OTk5LCJleHAiOjE3NzkyNTk3OTl9.kWnfHgAg_YmEqxIoA4RkLdAa2pudgTZ5sHqHAm4mdjs",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/cart/checkout",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "api",
+                "cart",
+                "checkout"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -796,6 +967,183 @@
               "path": [
                 "api",
                 "events"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Order by Id Not Found",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpYXQiOjE3Nzg1Nzg1MDMsImV4cCI6MTc3OTE4MzMwM30.P__aqxj0zyaECi1jCU6AS2BYQbzg8CzU7aAwfG5CK98",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3001/api/orders/999",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "api",
+                "orders",
+                "999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Order by Id Valid",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo4LCJlbWFpbCI6InRlc3QyQHRlc3QuY29tIiwiaWF0IjoxNzc4NjU0OTk5LCJleHAiOjE3NzkyNTk3OTl9.kWnfHgAg_YmEqxIoA4RkLdAa2pudgTZ5sHqHAm4mdjs",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3001/api/orders/3",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "api",
+                "orders",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Orders With Orders",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo4LCJlbWFpbCI6InRlc3QyQHRlc3QuY29tIiwiaWF0IjoxNzc4NjU0OTk5LCJleHAiOjE3NzkyNTk3OTl9.kWnfHgAg_YmEqxIoA4RkLdAa2pudgTZ5sHqHAm4mdjs",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/orders",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "api",
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Orders Empty",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpYXQiOjE3Nzg1Nzg1MDMsImV4cCI6MTc3OTE4MzMwM30.P__aqxj0zyaECi1jCU6AS2BYQbzg8CzU7aAwfG5CK98",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3001/api/orders",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "api",
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Order by Id Wrong User",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpYXQiOjE3Nzg1Nzg1MDMsImV4cCI6MTc3OTE4MzMwM30.P__aqxj0zyaECi1jCU6AS2BYQbzg8CzU7aAwfG5CK98",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Test User 2\",\r\n  \"email\": \"test2@test.com\",\r\n  \"password\": \"password123\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/orders/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "api",
+                "orders",
+                "1"
               ]
             }
           },
