@@ -50,3 +50,21 @@ export async function checkout(req, res, next) {
     next(error);
   }
 }
+
+export async function listOrders(req, res, next) {
+  try {
+    let userId = null;
+    
+    if (req.user) {
+      userId = req.user.user_id;
+    }
+
+    const orders = await getOrdersByUser(userId);
+
+    return res.status(200).json({
+      data: orders,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
