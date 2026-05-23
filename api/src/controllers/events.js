@@ -77,11 +77,7 @@ export async function getEvents(req, res, next) {
       pageSize = Number(req.query.pageSize);
     }
 
-    if (
-      !Number.isInteger(pageSize) ||
-      pageSize < 1 ||
-      pageSize > MAX_PAGE_SIZE
-    ) {
+    if (pageSize < 1 || pageSize > MAX_PAGE_SIZE) {
       pageSize = 20;
     }
 
