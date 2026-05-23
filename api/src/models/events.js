@@ -45,21 +45,26 @@ function baseQuery(trx = db) {
  *
  * @returns {Promise<number>} Total matching rows
  */
+
 export async function countEvents(filters = {}, options = {}) {
   const { trx } = options;
   const qb = baseQuery(trx);
 
-  // TODO (required project work): apply supported filters when filter features are implemented
   if (filters.search) {
-    qb.where((q) =>
-      q
-        .whereILike("title", `%${filters.search}%`)
-        .orWhereILike("description", `%${filters.search}%`),
-    );
+    qb.where(function () {
+      this.whereILike("title", `%${filters.search}%`).orWhereILike(
+        "venue",
+        `%${filters.search}%`,
+      );
+    });
   }
 
   const row = await qb.count({ count: "*" }).first();
-  const count = row?.count ?? row?.["count(*)"] ?? 0;
+
+  let count = 0;
+  if (row && row.count !== undefined) {
+    count = row.count;
+  }
 
   return Number(count);
 }
@@ -88,24 +93,39 @@ export async function countEvents(filters = {}, options = {}) {
  *
  * @returns {Promise<Array<Object>>}
  */
+
 export async function listEvents(filters = {}, options = {}) {
-  const { limit, offset, orderBy = "id", order = "asc", trx } = options;
+  const { trx } = options;
+
+  let orderBy = "event_date";
+  if (options.orderBy) {
+    orderBy = options.orderBy;
+  }
+
+  let order = "asc";
+  if (options.order && options.order.toLowerCase() === "desc") {
+    order = "desc";
+  }
 
   const qb = baseQuery(trx).select("*");
 
-  // TODO (required project work): apply supported filters
   if (filters.search) {
-    qb.where((q) =>
-      q
-        .whereILike("title", `%${filters.search}%`)
-        .orWhereILike("description", `%${filters.search}%`),
-    );
+    qb.where(function () {
+      this.whereILike("title", `%${filters.search}%`).orWhereILike(
+        "venue",
+        `%${filters.search}%`,
+      );
+    });
   }
 
-  qb.orderBy(orderBy, String(order).toLowerCase() === "desc" ? "desc" : "asc");
+  qb.orderBy(orderBy, order);
 
-  if (limit) qb.limit(limit);
-  if (offset) qb.offset(offset);
+  if (options.limit !== undefined) {
+    qb.limit(options.limit);
+  }
+  if (options.offset !== undefined) {
+    qb.offset(options.offset);
+  }
 
   return qb;
 }
@@ -121,10 +141,15 @@ export async function listEvents(filters = {}, options = {}) {
  *
  * @returns {Promise<Object|null>}
  */
+
 export async function findEventById(id, { trx } = {}) {
   const row = await baseQuery(trx).where({ id }).first();
 
-  return row ?? null;
+  if (!row) {
+    return null;
+  }
+
+  return row;
 }
 
 /**
