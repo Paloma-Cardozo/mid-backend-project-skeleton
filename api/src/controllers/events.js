@@ -66,7 +66,7 @@ export async function getEvents(req, res, next) {
       page = Number(req.query.page);
     }
 
-    if (page < 1) {
+    if (!Number.isInteger(page) || page < 1) {
       page = 1;
     }
 
@@ -81,9 +81,11 @@ export async function getEvents(req, res, next) {
       pageSize = 20;
     }
 
+    // Parse page safely (ensure non-negative integer)
     const offset = (page - 1) * pageSize;
 
-    const filters = {};
+    const filters = {}; // TODO (required project work): map req.query filters here
+
     if (req.query.q) {
       filters.search = req.query.q;
     }
@@ -91,7 +93,7 @@ export async function getEvents(req, res, next) {
     const data = await listEvents(filters, {
       limit: pageSize,
       offset,
-      orderBy: "event_date",
+      orderBy: "id",
       order: "asc",
     });
 

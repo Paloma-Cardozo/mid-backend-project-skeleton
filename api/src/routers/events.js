@@ -1,10 +1,10 @@
 import express from "express";
 import {
-    getEvents,
-    getEventById,
-    postEvent,
-    patchEvent,
-    removeEvent,
+  getEvents,
+  getEventById,
+  postEvent,
+  patchEvent,
+  removeEvent,
 } from "#controllers/events.js";
 
 const eventsRouter = express.Router();
@@ -33,6 +33,12 @@ const eventsRouter = express.Router();
  *       - Events
  *     parameters:
  *       - in: query
+ *         name: q
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Search term (searches in title and description)
+ *       - in: query
  *         name: page
  *         schema:
  *           type: integer
@@ -40,6 +46,14 @@ const eventsRouter = express.Router();
  *           default: 0
  *         required: false
  *         description: Page number (zero-based)
+ *       - in: query
+ *         name: pageSize
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           default: 20
+ *         required: false
+ *         description: Items per page
  *     responses:
  *       200:
  *         description: Paginated list of events
@@ -82,13 +96,13 @@ const eventsRouter = express.Router();
  *                       example: 0
  *                     pageSize:
  *                       type: integer
- *                       example: 5
+ *                       example: 20
  *                     totalItems:
  *                       type: integer
  *                       example: 245
  *                     totalPages:
  *                       type: integer
- *                       example: 49
+ *                       example: 13
  *       400:
  *         description: Invalid query parameters
  *       500:
