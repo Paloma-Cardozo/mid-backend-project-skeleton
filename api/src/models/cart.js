@@ -34,6 +34,14 @@ export async function createCart(userId) {
 }
 
 export async function addItemToCart(cartId, eventId, quantity, priceSnapshot) {
+  const existingItem = await db("cart_item")
+    .where({ cart_id: cartId, event_id: eventId })
+    .first();
+
+  if (existingItem) {
+    return updateCartItem(existingItem.id, existingItem.quantity + quantity);
+  }
+
   const [item] = await db("cart_item")
     .insert({
       cart_id: cartId,

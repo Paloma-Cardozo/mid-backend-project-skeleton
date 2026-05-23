@@ -8,14 +8,22 @@ import {
 } from "#models/cart.js";
 import db from "#configs/database.js";
 
+function isPositiveInteger(value) {
+  if (!Number.isInteger(value) || value < 1) {
+    return false;
+  }
+  return true;
+}
+
+function getCartSubtotal(cart) {
+  return cart.items.reduce((sum, item) => {
+    return sum + item.quantity * parseFloat(item.price_snapshot);
+  }, 0);
+}
+
 export async function getCart(req, res, next) {
   try {
-    let userId = null;
-
-    if (req.user) {
-      userId = req.user.user_id;
-    }
-
+    const userId = req.user.user_id;
     const cart = await getActiveCart(userId);
 
     if (!cart) {
@@ -27,9 +35,7 @@ export async function getCart(req, res, next) {
       });
     }
 
-    const subtotal = cart.items.reduce((sum, item) => {
-      return sum + item.quantity * parseFloat(item.price_snapshot);
-    }, 0);
+    const subtotal = getCartSubtotal(cart);
 
     return res.status(200).json({
       data: {
@@ -46,12 +52,7 @@ export async function getCart(req, res, next) {
 
 export async function addItem(req, res, next) {
   try {
-    let userId = null;
-
-    if (req.user) {
-      userId = req.user.user_id;
-    }
-
+    const userId = req.user.user_id;
     const { event_id, quantity } = req.body;
 
     if (!event_id || quantity === undefined || quantity === null) {
@@ -61,14 +62,24 @@ export async function addItem(req, res, next) {
       });
     }
 
-    if (quantity < 1) {
+    const parsedQuantity = parseInt(quantity);
+    const parsedEventId = parseInt(event_id);
+
+    if (!isPositiveInteger(parsedEventId)) {
       return res.status(400).json({
-        error: "Quantity must be at least 1",
+        error: "event_id must be a positive integer",
         status: 400,
       });
     }
 
-    const event = await db("event").where({ id: event_id }).first();
+    if (!isPositiveInteger(parsedQuantity)) {
+      return res.status(400).json({
+        error: "Quantity must be a positive integer",
+        status: 400,
+      });
+    }
+
+    const event = await db("event").where({ id: parsedEventId }).first();
     if (!event) {
       return res.status(404).json({
         error: "Event not found",
@@ -81,13 +92,10 @@ export async function addItem(req, res, next) {
       cart = await createCart(userId);
     }
 
-    await addItemToCart(cart.id, event_id, quantity, event.price);
+    await addItemToCart(cart.id, parsedEventId, parsedQuantity, event.price);
 
     const updatedCart = await getActiveCart(userId);
-
-    const subtotal = updatedCart.items.reduce((sum, item) => {
-      return sum + item.quantity * parseFloat(item.price_snapshot);
-    }, 0);
+    const subtotal = getCartSubtotal(updatedCart);
 
     return res.status(201).json({
       data: {
@@ -104,13 +112,16 @@ export async function addItem(req, res, next) {
 
 export async function updateItem(req, res, next) {
   try {
-    let userId = null;
-    if (req.user) {
-      userId = req.user.user_id;
-    }
-
-    const itemId = req.params.itemId;
+    const userId = req.user.user_id;
+    const itemId = Number(req.params.itemId);
     const { quantity } = req.body;
+
+    if (!isPositiveInteger(itemId)) {
+      return res.status(400).json({
+        error: "itemId must be a positive integer",
+        status: 400,
+      });
+    }
 
     if (quantity === undefined || quantity === null) {
       return res.status(400).json({
@@ -119,14 +130,17 @@ export async function updateItem(req, res, next) {
       });
     }
 
-    if (quantity < 1) {
+    const parsedQuantity = parseInt(quantity);
+
+    if (!isPositiveInteger(parsedQuantity)) {
       return res.status(400).json({
-        error: "Quantity must be at least 1",
+        error: "Quantity must be a positive integer",
         status: 400,
       });
     }
 
     const cartItem = await findCartItem(itemId);
+
     if (!cartItem) {
       return res.status(404).json({
         error: "Cart item not found",
@@ -142,13 +156,10 @@ export async function updateItem(req, res, next) {
       });
     }
 
-    await updateCartItem(itemId, quantity);
+    await updateCartItem(itemId, parsedQuantity);
 
     const updatedCart = await getActiveCart(userId);
-
-    const subtotal = updatedCart.items.reduce((sum, item) => {
-      return sum + item.quantity * parseFloat(item.price_snapshot);
-    }, 0);
+    const subtotal = getCartSubtotal(updatedCart);
 
     return res.status(200).json({
       data: {
@@ -165,13 +176,15 @@ export async function updateItem(req, res, next) {
 
 export async function removeItem(req, res, next) {
   try {
-    let userId = null;
+    const userId = req.user.user_id;
+    const itemId = Number(req.params.itemId);
 
-    if (req.user) {
-      userId = req.user.user_id;
+    if (!isPositiveInteger(itemId)) {
+      return res.status(400).json({
+        error: "itemId must be a positive integer",
+        status: 400,
+      });
     }
-
-    const itemId = req.params.itemId;
 
     const cartItem = await findCartItem(itemId);
 
@@ -200,9 +213,7 @@ export async function removeItem(req, res, next) {
 
     if (updatedCart) {
       items = updatedCart.items;
-      subtotal = updatedCart.items.reduce((sum, item) => {
-        return sum + item.quantity * parseFloat(item.price_snapshot);
-      }, 0);
+      subtotal = getCartSubtotal(updatedCart);
     }
 
     return res.status(200).json({
