@@ -71,12 +71,13 @@ export async function getEvents(req, res, next) {
     }
 
     let pageSize = 20;
+    const MAX_PAGE_SIZE = 100;
 
     if (req.query.pageSize) {
       pageSize = Number(req.query.pageSize);
     }
 
-    if (pageSize < 1) {
+    if (pageSize < 1 || pageSize > MAX_PAGE_SIZE) {
       pageSize = 20;
     }
 
